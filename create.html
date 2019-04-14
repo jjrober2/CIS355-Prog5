@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='UTF8'>
+		<link href="http://csis.svsu.edu/~ajsliter/cis355/Prog01-master/css/bootstrap.min.css" rel="stylesheet">
+		<script src="http://csis.svsu.edu/~ajsliter/cis355/Prog01-master/js/bootstrap.min.js"></script>
+		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	</head>
+	<body onload="loadDoc();">
+		<div id="demo"></div>
+	
+		<script>
+			function loadDoc() {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						document.getElementById("demo").innerHTML =
+						this.responseText;
+					}
+				};
+				xhttp.open("GET", "http://csis.svsu.edu/~jjrober2/cis355/Prog05/create.php", true);
+				xhttp.send();
+			}
+			
+			function Submit() {
+				console.log("Hello Submit");
+				var name = document.getElementById("name").value;
+				var email = document.getElementById("email").value;
+				var mobile = document.getElementById("mobile").value;
+				$.doSubmit(name,email,mobile);
+			}
+			
+			$.doSubmit = function(name,email,mobile) {
+				console.log("Hello doSubmit");
+				//var name=$("#name").val();
+                //var email=$("#email").val();
+                //var mobile=$("#mobile").val();                
+                var dataString=
+                     "?name="+name
+                    +"&email="+email
+                    +"&mobile="+mobile
+                    +"&insert=";
+                if(   $.trim(name).length>0 
+                    & $.trim(email).length>0 
+                    & $.trim(mobile).length>0) {
+                    $.ajax( {
+                        type: "POST",
+                        url: "http://csis.svsu.edu/~jjrober2/cis355/Prog05/create.php",
+                        data: dataString,
+                        crossDomain: true,
+                        cache: false,
+                        beforeSend: function(){ $("#insert").val('Connecting...');},
+                        success: function(data){ location.href = "index.html"; }
+                    });
+                }
+			}
+		</script>
+
+	</body>
+</html>

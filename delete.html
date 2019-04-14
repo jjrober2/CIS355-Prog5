@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='UTF8'>
+		<link href="http://csis.svsu.edu/~ajsliter/cis355/Prog01-master/css/bootstrap.min.css" rel="stylesheet">
+		<script src="http://csis.svsu.edu/~ajsliter/cis355/Prog01-master/js/bootstrap.min.js"></script>
+		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	</head>
+	<body onload="loadDoc();">
+		<div id="demo"></div>
+	
+		<script>
+			function loadDoc() {
+				var query = window.location.search;
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						document.getElementById("demo").innerHTML =
+						this.responseText;
+					}
+				};
+				xhttp.open("GET", "http://csis.svsu.edu/~jjrober2/cis355/Prog05/delete.php" + query, true);
+				xhttp.send();
+			}
+			
+			function Submit() {
+				var querystr = window.location.search;
+				$.doSubmit(querystr);
+			}
+			
+			$.doSubmit = function (queryid) {
+				$.ajax( {
+                    type: "POST",
+                    url: "http://csis.svsu.edu/~jjrober2/cis355/Prog05/delete.php",
+                    data: queryid+"&delete=",
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function(){ $("#delete").val('Connecting...');},
+                    success: function(data){ location.href = "index.html"; }
+                });
+			}
+			                
+		</script>
+
+	</body>
+</html>
